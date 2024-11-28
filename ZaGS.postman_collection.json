@@ -1,0 +1,466 @@
+{
+	"info": {
+		"_postman_id": "8eedcf98-8686-4b01-9944-df56d977d67f",
+		"name": "ZaGS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36400733"
+	},
+	"item": [
+		{
+			"name": "Create user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Проверяем, что статус ответа 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Проверяем, что тело ответа возвращает JSON",
+							"pm.test(\"Response is in JSON format\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"// Проверяем, что тело ответа содержит ключи \"data\" и \"requestId\"",
+							"pm.test(\"Response contains required keys\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"data\");",
+							"    pm.expect(jsonData).to.have.property(\"requestId\");",
+							"});",
+							"",
+							"// Проверяем, что объект \"data\" содержит все необходимые поля",
+							"pm.test(\"Data object contains all required fields\", function () {",
+							"    const data = pm.response.json().data;",
+							"    pm.expect(data).to.have.property(\"applicantid\");",
+							"    pm.expect(data).to.have.property(\"citizenid\");",
+							"    pm.expect(data).to.have.property(\"applicationid\");",
+							"    pm.expect(data).to.have.property(\"birthcertificateid\");",
+							"});",
+							"",
+							"// Проверяем, что все ID в \"data\" являются числами",
+							"pm.test(\"All IDs in data are numbers\", function () {",
+							"    const data = pm.response.json().data;",
+							"    pm.expect(data.applicantid).to.be.a(\"number\");",
+							"    pm.expect(data.citizenid).to.be.a(\"number\");",
+							"    pm.expect(data.applicationid).to.be.a(\"number\");",
+							"    pm.expect(data.birthcertificateid).to.be.a(\"number\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mode\": \"birth\",\n    \"personalLastName\": \"{{$randomLastName}}\",\n    \"personalFirstName\": \"{{$randomFirstName}}\",\n    \"personalMiddleName\": \"{{$randomFirstName}}\",\n    \"personalPhoneNumber\": \"{{$randomPhoneNumber}}\",\n    \"personalNumberOfPassport\": \"{{$randomInt}}\",\n    \"citizenLastName\": \"{{$randomLastName}}\",\n    \"citizenFirstName\": \"{{$randomFirstName}}\",\n    \"citizenMiddleName\": \"{{$randomFirstName}}\",\n    \"citizenBirthDate\": \"{{$randomDateRecent}}\",\n    \"citizenNumberOfPassport\": \"{{$randomInt}}\",\n    \"citizenGender\": \"Male\",\n    \"dateOfMarriage\": \"{{$randomDateFuture}}\",\n    \"newLastName\": \"{{$randomLastName}}\",\n    \"anotherPersonLastName\": \"{{$randomLastName}}\",\n    \"anotherPersonFirstName\": \"{{$randomFirstName}}\",\n    \"anotherPersonMiddleName\": \"{{$randomFirstName}}\",\n    \"birth_of_anotoherPerson\": \"{{$randomDateRecent}}\",\n    \"anotherPersonPassport\": \"{{$randomInt}}\",\n    \"birth_place\": \"{{$randomCity}}\",\n    \"birth_mother\": \"{{$randomFullName}}\",\n    \"birth_father\": \"{{$randomFullName}}\",\n    \"death_dateOfDeath\": \"{{$randomDatePast}}\",\n    \"death_placeOfDeath\": \"{{$randomCity}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}sendUserRequest",
+					"host": [
+						"{{url}}sendUserRequest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Проверяем, что статус ответа 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Проверяем, что тело ответа возвращает JSON",
+							"pm.test(\"Response is in JSON format\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"// Проверяем, что тело ответа содержит ключи \"data\" и \"requestId\"",
+							"pm.test(\"Response contains required keys\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"data\");",
+							"    pm.expect(jsonData).to.have.property(\"requestId\");",
+							"});",
+							"",
+							"// Проверяем, что объект \"data\" содержит ключ \"staffid\"",
+							"pm.test(\"Data object contains staffid\", function () {",
+							"    const data = pm.response.json().data;",
+							"    pm.expect(data).to.have.property(\"staffid\");",
+							"});",
+							"",
+							"// Проверяем, что \"staffid\" является числом",
+							"pm.test(\"staffid is a number\", function () {",
+							"    const staffid = pm.response.json().data.staffid;",
+							"    pm.expect(staffid).to.be.a(\"number\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"dateofbirth\": \"{{$randomDateRecent}}\",\n  \"personalFirstName\": \"{{$randomFirstName}}\",\n  \"personalLastName\": \"{{$randomLastName}}\",\n  \"personalMiddleName\": \"{{$randomFirstName}}\",\n  \"personalNumberOfPassport\": \"{{$randomInt}}\",\n  \"personalPhoneNumber\": \"{{$randomPhoneNumber}}\"\n}\n\n// 1990.08.12   на день меньше \n// 1990/08/12   на день меньше\n// 1990-08-12   ok   Как в pl\n// 08.12.1990   на день меньше\n// 08/12/1990   на день меньше\n// 08-12-1990   на день меньше",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}sendAdminRequest",
+					"host": [
+						"{{url}}sendAdminRequest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change status of application",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Проверяем, что статус ответа 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Проверяем, что тело ответа возвращает JSON",
+							"pm.test(\"Response is in JSON format\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"// Проверяем, что тело ответа содержит ключи \"data\" и \"requestId\"",
+							"pm.test(\"Response contains required keys\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"data\");",
+							"    pm.expect(jsonData).to.have.property(\"requestId\");",
+							"});",
+							"",
+							"// Проверяем, что объект \"data\" содержит необходимые ключи",
+							"pm.test(\"Data object contains required keys\", function () {",
+							"    const data = pm.response.json().data;",
+							"    pm.expect(data).to.have.property(\"applicationid\");",
+							"    pm.expect(data).to.have.property(\"citizenid\");",
+							"    pm.expect(data).to.have.property(\"applicantid\");",
+							"    pm.expect(data).to.have.property(\"staffid\");",
+							"    pm.expect(data).to.have.property(\"dateofapplication\");",
+							"    pm.expect(data).to.have.property(\"kindofapplication\");",
+							"    pm.expect(data).to.have.property(\"statusofapplication\");",
+							"});",
+							"",
+							"// Проверяем, что \"applicationid\" совпадает с отправленным в запросе",
+							"pm.test(\"applicationid matches request body\", function () {",
+							"    const applicationid = pm.response.json().data.applicationid;",
+							"    pm.expect(applicationid).to.eql(pm.collectionVariables.get(\"applicationId\"));",
+							"});",
+							"",
+							"// Проверяем, что \"statusofapplication\" равно значение action из тела запроса (переменной коллекции)",
+							"pm.test(\"statusofapplication is \" + pm.collectionVariables.get(\"action\"), function () {",
+							"    const status = pm.response.json().data.statusofapplication;",
+							"    pm.expect(status).to.eql(pm.collectionVariables.get(\"action\"));",
+							"});",
+							"",
+							"// Проверяем, что \"statusofapplication\" имеет корректное значение",
+							"pm.test(\"'statusofapplication' is valid\", function () {",
+							"    const data = pm.response.json().data;",
+							"    const validStatuses = [\"under consideration\", \"approved\", \"rejected\"];",
+							"    pm.expect(validStatuses).to.include(data.statusofapplication);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"applId\": {{applicationId}},\n  \"staffid\": {{$randomInt}},\n  \"action\": \"{{action}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}requestProcess",
+					"host": [
+						"{{url}}requestProcess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all applications",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Проверяем, что статус ответа 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Проверяем, что тело ответа возвращает JSON",
+							"pm.test(\"Response is in JSON format\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"// Проверяем, что тело ответа содержит ключ \"data\"",
+							"pm.test(\"Response contains key 'data'\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"data\");",
+							"});",
+							"",
+							"// Проверяем, что \"data\" является массивом",
+							"pm.test(\"'data' is an array\", function () {",
+							"    const data = pm.response.json().data;",
+							"    pm.expect(data).to.be.an(\"array\");",
+							"});",
+							"",
+							"// Проверяем, что каждый объект в массиве содержит все необходимые ключи",
+							"pm.test(\"Each object in 'data' contains required keys\", function () {",
+							"    const data = pm.response.json().data;",
+							"    const requiredKeys = [",
+							"        \"applicationid\",",
+							"        \"citizenid\",",
+							"        \"applicantid\",",
+							"        \"staffid\",",
+							"        \"dateofapplication\",",
+							"        \"kindofapplication\",",
+							"        \"statusofapplication\",",
+							"        \"channel\",",
+							"        \"image\"",
+							"    ];",
+							"    data.forEach(item => {",
+							"        requiredKeys.forEach(key => {",
+							"            pm.expect(item).to.have.property(key);",
+							"        });",
+							"    });",
+							"});",
+							"",
+							"// Проверяем, что \"applicationid\", \"citizenid\" и \"applicantid\" являются числами",
+							"pm.test(\"'applicationid', 'citizenid', 'applicantid' are numbers\", function () {",
+							"    const data = pm.response.json().data;",
+							"    data.forEach(item => {",
+							"        pm.expect(item.applicationid).to.be.a(\"number\");",
+							"        pm.expect(item.citizenid).to.be.a(\"number\");",
+							"        pm.expect(item.applicantid).to.be.a(\"number\");",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}getApplications",
+					"host": [
+						"{{url}}getApplications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get application with given ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Проверяем, что статус ответа 200",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Проверяем, что тело ответа возвращает JSON",
+							"pm.test(\"Response is in JSON format\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"// Проверяем, что тело ответа содержит ключ \"data\"",
+							"pm.test(\"Response contains key 'data'\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"data\");",
+							"});",
+							"",
+							"// Проверяем, что объект \"data\" содержит все необходимые ключи",
+							"pm.test(\"'data' contains required keys\", function () {",
+							"    const data = pm.response.json().data;",
+							"    const requiredKeys = [",
+							"        \"applicantid\",",
+							"        \"dateofapplication\",",
+							"        \"kindofapplication\",",
+							"        \"channel\",",
+							"        \"statusofapplication\"",
+							"    ];",
+							"    requiredKeys.forEach(key => {",
+							"        pm.expect(data).to.have.property(key);",
+							"    });",
+							"});",
+							"",
+							"// Проверяем, что \"applicantid\" является числом",
+							"pm.test(\"'applicantid' is a number\", function () {",
+							"    const data = pm.response.json().data;",
+							"    pm.expect(data.applicantid).to.be.a(\"number\");",
+							"});",
+							"",
+							"// Проверяем, что \"kindofapplication\" не пустое и имеет ожидаемое значение",
+							"pm.test(\"'kindofapplication' is valid\", function () {",
+							"    const data = pm.response.json().data;",
+							"    const validValues = [\"Получение свидетельства о браке\", \"Получение свидетельства о смерти\", \"Получение свидетельства о рождении\"];",
+							"    pm.expect(validValues).to.include(data.kindofapplication);",
+							"});",
+							"",
+							"// Проверяем, что \"statusofapplication\" имеет корректное значение",
+							"pm.test(\"'statusofapplication' is valid\", function () {",
+							"    const data = pm.response.json().data;",
+							"    const validStatuses = [\"under consideration\", \"approved\", \"rejected\"];",
+							"    pm.expect(validStatuses).to.include(data.statusofapplication);",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}getApplStatus/{{applicationId}}",
+					"host": [
+						"{{url}}getApplStatus"
+					],
+					"path": [
+						"{{applicationId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "senlatest",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "user",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://regoffice.senla.eu/",
+			"type": "string"
+		},
+		{
+			"key": "applicationId",
+			"value": "35608",
+			"type": "default"
+		},
+		{
+			"key": "action",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
